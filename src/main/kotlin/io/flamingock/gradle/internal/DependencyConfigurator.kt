@@ -1,0 +1,83 @@
+/*
+ * Copyright 2024 Flamingock (https://www.flamingock.io)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package io.flamingock.gradle.internal
+
+import io.flamingock.gradle.FlamingockExtension
+import org.gradle.api.Project
+
+/**
+ * Configures Flamingock dependencies based on the extension settings.
+ */
+internal object DependencyConfigurator {
+
+    private const val GROUP = "io.flamingock"
+
+    fun configure(project: Project, extension: FlamingockExtension, version: String) {
+        val dependencies = project.dependencies
+
+        // Always add the annotation processor
+        dependencies.add(
+            "annotationProcessor",
+            "$GROUP:flamingock-processor:$version"
+        )
+
+        // Community edition dependencies
+        if (extension.isCommunityEnabled) {
+            // Add BOM for version management
+            dependencies.add(
+                "implementation",
+                dependencies.platform("$GROUP:flamingock-community-bom:$version")
+            )
+            // Add core community library (version managed by BOM)
+            dependencies.add(
+                "implementation",
+                "$GROUP:flamingock-community"
+            )
+        }
+
+        // Mongock support
+        if (extension.isMongockEnabled) {
+            dependencies.add(
+                "implementation",
+                "$GROUP:mongock-support"
+            )
+            dependencies.add(
+                "annotationProcessor",
+                "$GROUP:mongock-support"
+            )
+        }
+
+        // Spring Boot integration
+        if (extension.isSpringbootEnabled) {
+            dependencies.add(
+                "implementation",
+                "$GROUP:flamingock-springboot-integration"
+            )
+            dependencies.add(
+                "testImplementation",
+                "$GROUP:flamingock-springboot-test-support"
+            )
+        }
+
+        // GraalVM support
+        if (extension.isGraalvmEnabled) {
+            dependencies.add(
+                "implementation",
+                "$GROUP:flamingock-graalvm"
+            )
+        }
+    }
+}
