@@ -60,12 +60,12 @@ flamingock {
 
 ### Configuration Options
 
-| Method | Required | Description |
-|--------|----------|-------------|
-| `community()` | Yes | Enables the Flamingock Community edition |
-| `mongock()` | No | Adds support for migrating from Mongock |
-| `springboot()` | No | Adds Spring Boot integration and test support |
-| `graalvm()` | No | Adds GraalVM native image support |
+| Method         | Required | Description                                                         |
+|----------------|----------|---------------------------------------------------------------------|
+| `community()`  | No       | Disables Flamingock cloud edition in favor of the community edition |
+| `springboot()` | No       | Adds Spring Boot integration and test support                       |
+| `graalvm()`    | No       | Adds GraalVM native image support                                   |
+| `mongock()`    | No       | Adds support for migrating from Mongock                             |
 
 ---
 
@@ -132,16 +132,16 @@ dependencies {
 Then write your changes:
 
 ```java
-@ChangeUnit(id = "create-users-index", order = "001", author = "dev")
+@Change(id = "create-users-index", order = "001", author = "dev")
 public class CreateUsersIndex {
 
-    @Execution
+    @Apply
     public void execute(MongoDatabase database) {
         database.getCollection("users")
             .createIndex(Indexes.ascending("email"));
     }
 
-    @RollbackExecution
+    @Rollback
     public void rollback(MongoDatabase database) {
         database.getCollection("users")
             .dropIndex(Indexes.ascending("email"));
