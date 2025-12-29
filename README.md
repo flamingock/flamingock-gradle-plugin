@@ -132,19 +132,14 @@ dependencies {
 Then write your changes:
 
 ```java
-@Change(id = "create-users-index", order = "001", author = "dev")
-public class CreateUsersIndex {
-
+@Change(id = "user-events-v3")
+public class _0001__RegisterUserEventSchema {
     @Apply
-    public void execute(MongoDatabase database) {
-        database.getCollection("users")
-            .createIndex(Indexes.ascending("email"));
-    }
-
-    @Rollback
-    public void rollback(MongoDatabase database) {
-        database.getCollection("users")
-            .dropIndex(Indexes.ascending("email"));
+    public void apply(SchemaRegistryClient registry) {
+        registry.register(
+                "user-events",
+                loadAvro("schemas/user-events-v3.avsc")
+        );
     }
 }
 ```
