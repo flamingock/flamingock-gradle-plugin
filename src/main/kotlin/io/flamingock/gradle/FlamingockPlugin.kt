@@ -16,6 +16,7 @@
 package io.flamingock.gradle
 
 import io.flamingock.gradle.internal.DependencyConfigurator
+import io.flamingock.gradle.internal.FlamingockConstants
 import org.gradle.api.GradleException
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -42,11 +43,6 @@ import org.gradle.api.Project
  */
 class FlamingockPlugin : Plugin<Project> {
 
-    companion object {
-        const val EXTENSION_NAME = "flamingock"
-        const val PLUGIN_VERSION = "1.0.0-beta.7"
-    }
-
     override fun apply(project: Project) {
         // Apply java plugin if not already applied
         if (!project.plugins.hasPlugin("java")) {
@@ -55,14 +51,14 @@ class FlamingockPlugin : Plugin<Project> {
 
         // Create and register the extension
         val extension = project.extensions.create(
-            EXTENSION_NAME,
+            FlamingockConstants.EXTENSION_NAME,
             FlamingockExtension::class.java
         )
 
         // Configure dependencies after project evaluation
         project.afterEvaluate {
             validateConfiguration(extension)
-            DependencyConfigurator.configure(project, extension, PLUGIN_VERSION)
+            DependencyConfigurator.configure(project, extension, FlamingockConstants.FLAMINGOCK_VERSION)
         }
     }
 

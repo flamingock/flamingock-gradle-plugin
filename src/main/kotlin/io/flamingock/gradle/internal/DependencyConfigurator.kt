@@ -23,15 +23,14 @@ import org.gradle.api.Project
  */
 internal object DependencyConfigurator {
 
-    private const val GROUP = "io.flamingock"
-
     fun configure(project: Project, extension: FlamingockExtension, version: String) {
+        val group = FlamingockConstants.GROUP
         val dependencies = project.dependencies
 
         // Always add the annotation processor
         dependencies.add(
             "annotationProcessor",
-            "$GROUP:flamingock-processor:$version"
+            "$group:flamingock-processor:$version"
         )
 
         // Community edition dependencies
@@ -39,12 +38,12 @@ internal object DependencyConfigurator {
             // Add BOM for version management
             dependencies.add(
                 "implementation",
-                dependencies.platform("$GROUP:flamingock-community-bom:$version")
+                dependencies.platform("$group:flamingock-community-bom:$version")
             )
             // Add core community library (version managed by BOM)
             dependencies.add(
                 "implementation",
-                "$GROUP:flamingock-community"
+                "$group:flamingock-community"
             )
         }
 
@@ -52,11 +51,11 @@ internal object DependencyConfigurator {
         if (extension.isMongockEnabled) {
             dependencies.add(
                 "implementation",
-                "$GROUP:mongock-support"
+                "$group:mongock-support"
             )
             dependencies.add(
                 "annotationProcessor",
-                "$GROUP:mongock-support"
+                "$group:mongock-support"
             )
         }
 
@@ -64,11 +63,11 @@ internal object DependencyConfigurator {
         if (extension.isSpringbootEnabled) {
             dependencies.add(
                 "implementation",
-                "$GROUP:flamingock-springboot-integration"
+                "$group:flamingock-springboot-integration"
             )
             dependencies.add(
                 "testImplementation",
-                "$GROUP:flamingock-springboot-test-support"
+                "$group:flamingock-springboot-test-support"
             )
         }
 
@@ -76,7 +75,7 @@ internal object DependencyConfigurator {
         if (extension.isGraalvmEnabled) {
             dependencies.add(
                 "implementation",
-                "$GROUP:flamingock-graalvm"
+                "$group:flamingock-graalvm"
             )
         }
     }
