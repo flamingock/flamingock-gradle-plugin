@@ -55,7 +55,7 @@ internal object DependencyConfigurator {
             )
             dependencies.add(
                 "annotationProcessor",
-                "$group:mongock-support"
+                "$group:mongock-support:$version"
             )
         }
 
