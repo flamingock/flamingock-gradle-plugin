@@ -25,7 +25,7 @@ Add the plugin to your `build.gradle.kts`:
 
 ```kotlin
 plugins {
-    id("io.flamingock") version "1.0.0-beta.7"
+    id("io.flamingock") version "1.0.0"
 }
 
 flamingock {
@@ -37,7 +37,7 @@ Or in `build.gradle` (Groovy):
 
 ```groovy
 plugins {
-    id 'io.flamingock' version '1.0.0-beta.7'
+    id 'io.flamingock' version '1.0.0'
 }
 
 flamingock {
@@ -75,12 +75,12 @@ The plugin automatically adds dependencies based on your configuration:
 
 ### Always Added
 ```kotlin
-annotationProcessor("io.flamingock:flamingock-processor:1.0.0-beta.7")
+annotationProcessor("io.flamingock:flamingock-processor:1.0.0")
 ```
 
 ### `community()`
 ```kotlin
-implementation(platform("io.flamingock:flamingock-community-bom:1.0.0-beta.7"))
+implementation(platform("io.flamingock:flamingock-community-bom:1.0.0"))
 implementation("io.flamingock:flamingock-community")
 ```
 
@@ -112,7 +112,7 @@ plugins {
     java
     id("org.springframework.boot") version "3.2.0"
     id("io.spring.dependency-management") version "1.1.4"
-    id("io.flamingock") version "1.0.0-beta.7"
+    id("io.flamingock") version "1.0.0"
 }
 
 flamingock {

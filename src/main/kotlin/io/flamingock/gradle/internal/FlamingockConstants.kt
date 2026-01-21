@@ -21,5 +21,5 @@ package io.flamingock.gradle.internal
 internal object FlamingockConstants {
     const val GROUP = "io.flamingock"
     const val EXTENSION_NAME = "flamingock"
-    const val FLAMINGOCK_VERSION = "1.0.0-rc.1"
+    const val FLAMINGOCK_VERSION = "1.0.0"
 }

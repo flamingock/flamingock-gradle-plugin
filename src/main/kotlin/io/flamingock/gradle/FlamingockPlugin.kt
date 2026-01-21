@@ -30,7 +30,7 @@ import org.gradle.api.Project
  * Usage:
  * ```
  * plugins {
- *     id("io.flamingock") version "1.0.0-beta.7"
+ *     id("io.flamingock") version "1.0.0"
  * }
  *
  * flamingock {

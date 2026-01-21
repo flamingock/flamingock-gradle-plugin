@@ -24,7 +24,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 **flamingock-gradle-plugin** is a Gradle plugin that simplifies the setup and configuration of Flamingock in user projects. It manages all required dependencies, annotation processors, and build configurations automatically.
 
 - **Plugin ID**: `io.flamingock`
-- **Current Version**: `1.0.0-beta.7`
+- **Current Version**: `1.0.0`
 - **Group ID**: `io.flamingock`
 - **Target Gradle**: 7.4+
 - **Language**: Kotlin
@@ -49,7 +49,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ```kotlin
 plugins {
-    id("io.flamingock") version "1.0.0-beta.7"
+    id("io.flamingock") version "1.0.0"
 }
 
 flamingock {
