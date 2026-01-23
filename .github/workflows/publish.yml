@@ -1,11 +1,9 @@
 name: Publish Plugin
 
 on:
-  workflow_dispatch:
-    inputs:
-      version:
-        description: 'Plugin version to publish (e.g., 1.0.0)'
-        required: true
+  push:
+    branches:
+      - master
 
 jobs:
   publish:
@@ -21,10 +19,6 @@ jobs:
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
-
-      - name: Set version
-        run: |
-          echo "version=${{ github.event.inputs.version }}" >> gradle.properties
 
       - name: Build
         run: ./gradlew build

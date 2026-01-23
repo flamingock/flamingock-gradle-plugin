@@ -6,7 +6,6 @@ plugins {
 }
 
 group = "io.flamingock"
-version = project.version
 
 repositories {
     mavenCentral()
