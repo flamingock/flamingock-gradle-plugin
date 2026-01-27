@@ -75,7 +75,7 @@ open class FlamingockExtension {
                 |
                 |FLAMINGOCK CONFIGURATION ERROR
                 |
-                |Cannot enable both Community and Cloud editions.
+                |Cannot enable both Cloud and Community editions.
                 |
                 |The editions are mutually exclusive. Please choose one:
                 |
@@ -114,7 +114,7 @@ open class FlamingockExtension {
                 |
                 |FLAMINGOCK CONFIGURATION ERROR
                 |
-                |Cannot enable both Community and Cloud editions.
+                |Cannot enable both Cloud and Community editions.
                 |
                 |The editions are mutually exclusive. Please choose one:
                 |
