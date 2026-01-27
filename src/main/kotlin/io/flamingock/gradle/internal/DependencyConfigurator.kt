@@ -17,21 +17,45 @@ package io.flamingock.gradle.internal
 
 import io.flamingock.gradle.FlamingockExtension
 import org.gradle.api.Project
+import org.gradle.api.logging.Logger
 
 /**
  * Configures Flamingock dependencies based on the extension settings.
  */
 internal object DependencyConfigurator {
 
-    fun configure(project: Project, extension: FlamingockExtension, version: String) {
+    fun configure(project: Project, extension: FlamingockExtension, version: String, logger: Logger) {
         val group = FlamingockConstants.GROUP
         val dependencies = project.dependencies
+
+        // Log the effective edition
+        if (extension.isCloudEnabled) {
+            val qualifier = if (extension.selectedEdition == null) "(default)" else "(explicit)"
+            logger.info("Flamingock: Cloud edition enabled $qualifier")
+        } else {
+            logger.info("Flamingock: Community edition enabled")
+        }
 
         // Always add the annotation processor
         dependencies.add(
             "annotationProcessor",
             "$group:flamingock-processor:$version"
         )
+        logger.info("Flamingock: Added annotation processor (flamingock-processor)")
+
+        // Cloud edition dependencies
+        if (extension.isCloudEnabled) {
+            // Add BOM for version management
+            dependencies.add(
+                "implementation",
+                dependencies.platform("$group:flamingock-cloud-bom:$version")
+            )
+            // Add core cloud library (version managed by BOM)
+            dependencies.add(
+                "implementation",
+                "$group:flamingock-cloud"
+            )
+        }
 
         // Community edition dependencies
         if (extension.isCommunityEnabled) {
@@ -57,6 +81,7 @@ internal object DependencyConfigurator {
                 "annotationProcessor",
                 "$group:mongock-support:$version"
             )
+            logger.info("Flamingock: Mongock support enabled")
         }
 
         // Spring Boot integration
@@ -69,6 +94,7 @@ internal object DependencyConfigurator {
                 "testImplementation",
                 "$group:flamingock-springboot-test-support"
             )
+            logger.info("Flamingock: Spring Boot integration enabled")
         }
 
         // GraalVM support
@@ -77,6 +103,7 @@ internal object DependencyConfigurator {
                 "implementation",
                 "$group:flamingock-graalvm"
             )
+            logger.info("Flamingock: GraalVM native image support enabled")
         }
     }
 }

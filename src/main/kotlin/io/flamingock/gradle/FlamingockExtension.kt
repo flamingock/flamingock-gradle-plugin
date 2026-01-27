@@ -15,23 +15,40 @@
  */
 package io.flamingock.gradle
 
+import org.gradle.api.GradleException
+
 /**
  * Extension for configuring Flamingock in a Gradle project.
  *
  * Usage:
  * ```
  * flamingock {
- *     community()
- *     mongockSupport()
- *     springboot()
- *     graalvm()
+ *     cloud()       // default - Cloud edition (explicit)
+ *     community()   // Community edition
+ *     mongock()     // optional
+ *     springboot()  // optional
+ *     graalvm()     // optional
  * }
  * ```
  */
 open class FlamingockExtension {
 
-    internal var isCommunityEnabled: Boolean = false
+    enum class Edition {
+        COMMUNITY,
+        CLOUD
+    }
+
+    internal var selectedEdition: Edition? = null
         private set
+
+    internal val effectiveEdition: Edition
+        get() = selectedEdition ?: Edition.CLOUD
+
+    internal val isCommunityEnabled: Boolean
+        get() = effectiveEdition == Edition.COMMUNITY
+
+    internal val isCloudEnabled: Boolean
+        get() = effectiveEdition == Edition.CLOUD
 
     internal var isMongockEnabled: Boolean = false
         private set
@@ -45,14 +62,76 @@ open class FlamingockExtension {
     /**
      * Enables the Community edition of Flamingock.
      *
-     * This is REQUIRED. The plugin will fail if this method is not called.
+     * Mutually exclusive with [cloud].
      *
      * Adds:
      * - `implementation(platform("io.flamingock:flamingock-community-bom"))`
      * - `implementation("io.flamingock:flamingock-community")`
      */
     fun community() {
-        isCommunityEnabled = true
+        if (selectedEdition == Edition.CLOUD) {
+            throw GradleException(
+                """
+                |
+                |FLAMINGOCK CONFIGURATION ERROR
+                |
+                |Cannot enable both Community and Cloud editions.
+                |
+                |The editions are mutually exclusive. Please choose one:
+                |
+                |flamingock {
+                |    cloud()    // Cloud edition
+                |}
+                |
+                |or
+                |
+                |flamingock {
+                |    community()    // Community edition (default)
+                |}
+                |
+                """.trimMargin()
+            )
+        }
+        selectedEdition = Edition.COMMUNITY
+    }
+
+    /**
+     * Enables the Cloud edition of Flamingock.
+     *
+     * This is the default edition — if neither [cloud] nor [community] is called,
+     * Cloud is selected automatically.
+     *
+     * Mutually exclusive with [community].
+     *
+     * Adds:
+     * - `implementation(platform("io.flamingock:flamingock-cloud-bom"))`
+     * - `implementation("io.flamingock:flamingock-cloud")`
+     */
+    fun cloud() {
+        if (selectedEdition == Edition.COMMUNITY) {
+            throw GradleException(
+                """
+                |
+                |FLAMINGOCK CONFIGURATION ERROR
+                |
+                |Cannot enable both Community and Cloud editions.
+                |
+                |The editions are mutually exclusive. Please choose one:
+                |
+                |flamingock {
+                |    cloud()    // Cloud edition
+                |}
+                |
+                |or
+                |
+                |flamingock {
+                |    community()    // Community edition (default)
+                |}
+                |
+                """.trimMargin()
+            )
+        }
+        selectedEdition = Edition.CLOUD
     }
 
     /**

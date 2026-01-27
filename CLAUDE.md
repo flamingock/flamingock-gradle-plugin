@@ -2,10 +2,9 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-> **IMPORTANT: This plugin is intentionally minimal for v1.0**
+> **IMPORTANT: This plugin is intentionally minimal**
 >
 > Do NOT implement:
-> - Cloud edition
 > - Multiple drivers
 > - Template logic
 > - Advanced DSL
@@ -13,6 +12,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 > - Runtime features
 >
 > Focus only on:
+> - `cloud()` (default edition)
 > - `community()`
 > - `mongock()`
 > - `springboot()`
@@ -33,15 +33,15 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 - Applies `java` plugin if not present
 - Adds `flamingock-processor` annotation processor (always)
-- Adds Flamingock BOM and core library when `community()` is called
+- Defaults to Cloud edition if no edition is explicitly selected
+- Adds Flamingock BOM and core library based on the selected edition
 - Adds optional modules based on DSL configuration
-- Validates configuration and fails fast with clear errors
+- Validates mutual exclusion of editions eagerly (fails fast)
 
 ### What This Plugin Does NOT Do
 
 - Run migrations at build time
 - Auto-detect frameworks
-- Support Cloud edition (yet)
 - Configure database drivers
 - Handle templates
 
@@ -53,18 +53,33 @@ plugins {
 }
 
 flamingock {
-    community()   // REQUIRED - adds BOM + core library
+    // Cloud is the default - no call needed, or explicit:
+    cloud()
+    // OR for Community edition:
+    community()
+
     mongock()     // Optional - Mongock migration support
     springboot()  // Optional - Spring Boot integration
     graalvm()     // Optional - GraalVM native image support
 }
 ```
 
+### Edition Selection
+
+| User's DSL | Effective Edition |
+|---|---|
+| `flamingock { }` (empty or no block) | Cloud (default) |
+| `flamingock { cloud() }` | Cloud (explicit) |
+| `flamingock { community() }` | Community |
+| `flamingock { community(); cloud() }` | **ERROR** (mutually exclusive) |
+
 ## Dependency Wiring
 
 | Method                | Configuration         | Artifact                                             |
 |-----------------------|-----------------------|------------------------------------------------------|
 | Always                | `annotationProcessor` | `io.flamingock:flamingock-processor`                 |
+| `cloud()` (default)   | `implementation`      | `platform("io.flamingock:flamingock-cloud-bom")`     |
+| `cloud()` (default)   | `implementation`      | `io.flamingock:flamingock-cloud`                     |
 | `community()`         | `implementation`      | `platform("io.flamingock:flamingock-community-bom")` |
 | `community()`         | `implementation`      | `io.flamingock:flamingock-community`                 |
 | `mongock()`           | `implementation`      | `io.flamingock:mongock-support`                      |
@@ -107,39 +122,40 @@ flamingock-gradle-plugin/
 
 ## Validation
 
-If `community()` is NOT called, the plugin fails with:
+Calling both `community()` and `cloud()` fails immediately with:
 
 ```
 FLAMINGOCK CONFIGURATION ERROR
 
-No Flamingock edition selected.
+Cannot enable both Community and Cloud editions.
 
-Currently only the Community edition is available.
-
-Please configure:
+The editions are mutually exclusive. Please choose one:
 
 flamingock {
-    community()
+    community()   // Community edition
 }
 
-Cloud edition support will be available in a future release.
+or
+
+flamingock {
+    cloud()       // Cloud edition (default)
+}
 ```
 
 ## Design Rules
 
 **DO:**
-- Use `FlamingockExtension` to store DSL state (boolean flags)
+- Use `FlamingockExtension` to store DSL state (edition enum + boolean flags)
 - Use `afterEvaluate` to apply configuration
 - Use `project.dependencies.add(...)` for dependency wiring
 - Apply `java` plugin if not present
-- Fail fast with clear error messages
+- Fail fast with clear error messages on mutual exclusion
 - Keep logic simple and explicit
 
 **DO NOT:**
 - Auto-detect frameworks
 - Use reflection
 - Generate code
-- Support Cloud edition
 - Add optional/hidden behavior
 - Guess user intent
 

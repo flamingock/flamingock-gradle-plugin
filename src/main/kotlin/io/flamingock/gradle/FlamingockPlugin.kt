@@ -17,7 +17,6 @@ package io.flamingock.gradle
 
 import io.flamingock.gradle.internal.DependencyConfigurator
 import io.flamingock.gradle.internal.FlamingockConstants
-import org.gradle.api.GradleException
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
@@ -34,7 +33,8 @@ import org.gradle.api.Project
  * }
  *
  * flamingock {
- *     community()
+ *     cloud()       // default - Cloud edition
+ *     community()   // or Community edition
  *     mongock()     // optional
  *     springboot()  // optional
  *     graalvm()     // optional
@@ -57,32 +57,7 @@ class FlamingockPlugin : Plugin<Project> {
 
         // Configure dependencies after project evaluation
         project.afterEvaluate {
-            validateConfiguration(extension)
-            DependencyConfigurator.configure(project, extension, FlamingockConstants.FLAMINGOCK_VERSION)
-        }
-    }
-
-    private fun validateConfiguration(extension: FlamingockExtension) {
-        if (!extension.isCommunityEnabled) {
-            throw GradleException(
-                """
-                |
-                |FLAMINGOCK CONFIGURATION ERROR
-                |
-                |No Flamingock edition selected.
-                |
-                |Currently only the Community edition is available.
-                |
-                |Please configure:
-                |
-                |flamingock {
-                |    community()
-                |}
-                |
-                |Cloud edition support will be available in a future release.
-                |
-                """.trimMargin()
-            )
+            DependencyConfigurator.configure(project, extension, FlamingockConstants.FLAMINGOCK_VERSION, project.logger)
         }
     }
 }
