@@ -35,7 +35,8 @@ open class FlamingockExtension {
 
     enum class Edition {
         COMMUNITY,
-        CLOUD
+        CLOUD,
+        MINIMAL
     }
 
     internal var selectedEdition: Edition? = null
@@ -49,6 +50,9 @@ open class FlamingockExtension {
 
     internal val isCloudEnabled: Boolean
         get() = effectiveEdition == Edition.CLOUD
+
+    internal val isMinimalEnabled: Boolean
+        get() = effectiveEdition == Edition.MINIMAL
 
     internal var isMongockEnabled: Boolean = false
         private set
@@ -87,6 +91,29 @@ open class FlamingockExtension {
                 |
                 |flamingock {
                 |    community()    // Community edition (default)
+                |}
+                |
+                """.trimMargin()
+            )
+        }
+        if (selectedEdition == Edition.MINIMAL) {
+            throw GradleException(
+                """
+                |
+                |FLAMINGOCK CONFIGURATION ERROR
+                |
+                |Cannot enable both Minimal and Community editions.
+                |
+                |The editions are mutually exclusive. Please choose one:
+                |
+                |flamingock {
+                |    minimal()      // Minimal edition (processor only)
+                |}
+                |
+                |or
+                |
+                |flamingock {
+                |    community()    // Community edition
                 |}
                 |
                 """.trimMargin()
@@ -131,7 +158,91 @@ open class FlamingockExtension {
                 """.trimMargin()
             )
         }
+        if (selectedEdition == Edition.MINIMAL) {
+            throw GradleException(
+                """
+                |
+                |FLAMINGOCK CONFIGURATION ERROR
+                |
+                |Cannot enable both Minimal and Cloud editions.
+                |
+                |The editions are mutually exclusive. Please choose one:
+                |
+                |flamingock {
+                |    minimal()    // Minimal edition (processor only)
+                |}
+                |
+                |or
+                |
+                |flamingock {
+                |    cloud()    // Cloud edition
+                |}
+                |
+                """.trimMargin()
+            )
+        }
         selectedEdition = Edition.CLOUD
+    }
+
+    /**
+     * Enables the Minimal edition of Flamingock.
+     *
+     * This edition only adds the annotation processor, without any BOM or core library.
+     * Useful for projects that want to manage Flamingock dependencies manually.
+     *
+     * Mutually exclusive with [cloud] and [community].
+     *
+     * Adds:
+     * - `annotationProcessor("io.flamingock:flamingock-processor")`
+     */
+    fun minimal() {
+        if (selectedEdition == Edition.CLOUD) {
+            throw GradleException(
+                """
+                |
+                |FLAMINGOCK CONFIGURATION ERROR
+                |
+                |Cannot enable both Cloud and Minimal editions.
+                |
+                |The editions are mutually exclusive. Please choose one:
+                |
+                |flamingock {
+                |    cloud()    // Cloud edition
+                |}
+                |
+                |or
+                |
+                |flamingock {
+                |    minimal()    // Minimal edition (processor only)
+                |}
+                |
+                """.trimMargin()
+            )
+        }
+        if (selectedEdition == Edition.COMMUNITY) {
+            throw GradleException(
+                """
+                |
+                |FLAMINGOCK CONFIGURATION ERROR
+                |
+                |Cannot enable both Community and Minimal editions.
+                |
+                |The editions are mutually exclusive. Please choose one:
+                |
+                |flamingock {
+                |    community()    // Community edition
+                |}
+                |
+                |or
+                |
+                |flamingock {
+                |    minimal()    // Minimal edition (processor only)
+                |}
+                |
+                """.trimMargin()
+            )
+        }
+        selectedEdition = Edition.MINIMAL
     }
 
     /**

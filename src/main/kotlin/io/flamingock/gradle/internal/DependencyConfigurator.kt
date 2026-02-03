@@ -29,11 +29,17 @@ internal object DependencyConfigurator {
         val dependencies = project.dependencies
 
         // Log the effective edition
-        if (extension.isCloudEnabled) {
-            val qualifier = if (extension.selectedEdition == null) "(default)" else "(explicit)"
-            logger.info("Flamingock: Cloud edition enabled $qualifier")
-        } else {
-            logger.info("Flamingock: Community edition enabled")
+        when {
+            extension.isMinimalEnabled -> {
+                logger.info("Flamingock: Minimal edition enabled (processor only)")
+            }
+            extension.isCloudEnabled -> {
+                val qualifier = if (extension.selectedEdition == null) "(default)" else "(explicit)"
+                logger.info("Flamingock: Cloud edition enabled $qualifier")
+            }
+            else -> {
+                logger.info("Flamingock: Community edition enabled")
+            }
         }
 
         // Always add the annotation processor
