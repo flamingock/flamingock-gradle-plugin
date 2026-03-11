@@ -65,10 +65,6 @@ internal object DependencyConfigurator {
                 "implementation",
                 "$group:flamingock-springboot-integration"
             )
-            dependencies.add(
-                "testImplementation",
-                "$group:flamingock-springboot-test-support"
-            )
         }
 
         // GraalVM support
@@ -77,6 +73,13 @@ internal object DependencyConfigurator {
                 "implementation",
                 "$group:flamingock-graalvm"
             )
+        }
+
+        // Test support - springboot variant includes basic test-support transitively
+        if (extension.isSpringbootEnabled) {
+            dependencies.add("testImplementation", "$group:flamingock-springboot-test-support")
+        } else {
+            dependencies.add("testImplementation", "$group:flamingock-test-support")
         }
     }
 }

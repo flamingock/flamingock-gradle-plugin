@@ -70,8 +70,9 @@ flamingock {
 | `mongock()`           | `implementation`      | `io.flamingock:mongock-support`                      |
 | `mongock()`           | `annotationProcessor` | `io.flamingock:mongock-support`                      |
 | `springboot()`        | `implementation`      | `io.flamingock:flamingock-springboot-integration`    |
-| `springboot()`        | `testImplementation`  | `io.flamingock:flamingock-springboot-test-support`   |
 | `graalvm()`           | `implementation`      | `io.flamingock:flamingock-graalvm`                   |
+| (no springboot)       | `testImplementation`  | `io.flamingock:flamingock-test-support`              |
+| `springboot()`        | `testImplementation`  | `io.flamingock:flamingock-springboot-test-support`   |
 
 ## Project Structure
 
@@ -142,6 +143,12 @@ Cloud edition support will be available in a future release.
 - Support Cloud edition
 - Add optional/hidden behavior
 - Guess user intent
+
+## Commit Rules
+
+- Follow [Conventional Commits](https://www.conventionalcommits.org/) (e.g. `feat:`, `fix:`, `refactor:`, `chore:`)
+- Do NOT add `Co-Authored-By` lines
+- Keep messages concise but descriptive enough to be useful in a changelog
 
 ## License
 
