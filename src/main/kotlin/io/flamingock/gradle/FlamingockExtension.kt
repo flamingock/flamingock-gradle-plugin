@@ -71,7 +71,9 @@ open class FlamingockExtension {
      *
      * Adds:
      * - `implementation("io.flamingock:flamingock-springboot-integration")`
-     * - `testImplementation("io.flamingock:flamingock-springboot-test-support")`
+     *
+     * Also switches test support from `flamingock-test-support` to
+     * `flamingock-springboot-test-support` (which transitively includes the basic one).
      */
     fun springboot() {
         isSpringbootEnabled = true
