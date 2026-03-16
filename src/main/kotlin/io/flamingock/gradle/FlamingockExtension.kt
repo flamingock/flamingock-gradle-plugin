@@ -25,6 +25,7 @@ package io.flamingock.gradle
  *     mongockSupport()
  *     springboot()
  *     graalvm()
+ *     template(SQL, MONGODB)
  * }
  * ```
  */
@@ -40,6 +41,9 @@ open class FlamingockExtension {
         private set
 
     internal var isGraalvmEnabled: Boolean = false
+        private set
+
+    internal var templates: Set<FlamingockTemplate> = emptySet()
         private set
 
     /**
@@ -87,5 +91,15 @@ open class FlamingockExtension {
      */
     fun graalvm() {
         isGraalvmEnabled = true
+    }
+
+    /**
+     * Adds Java template dependencies.
+     *
+     * Adds for each template:
+     * - `implementation("io.flamingock:<template-artifact>:<template-version>")`
+     */
+    fun template(vararg templates: FlamingockTemplate) {
+        this.templates = this.templates + templates.toSet()
     }
 }

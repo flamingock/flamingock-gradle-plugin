@@ -16,12 +16,18 @@
 package io.flamingock.gradle.internal
 
 import io.flamingock.gradle.FlamingockExtension
+import io.flamingock.gradle.FlamingockTemplate
 import org.gradle.api.Project
 
 /**
  * Configures Flamingock dependencies based on the extension settings.
  */
 internal object DependencyConfigurator {
+
+    private fun templateCoordinates(template: FlamingockTemplate): Pair<String, String> = when (template) {
+        FlamingockTemplate.SQL -> "flamingock-java-template-sql" to FlamingockConstants.TEMPLATE_SQL_VERSION
+        FlamingockTemplate.MONGODB -> "flamingock-java-template-mongodb" to FlamingockConstants.TEMPLATE_MONGODB_VERSION
+    }
 
     fun configure(project: Project, extension: FlamingockExtension, version: String) {
         val group = FlamingockConstants.GROUP
@@ -72,6 +78,15 @@ internal object DependencyConfigurator {
             dependencies.add(
                 "implementation",
                 "$group:flamingock-graalvm"
+            )
+        }
+
+        // Java templates
+        for (template in extension.templates) {
+            val (artifactId, templateVersion) = templateCoordinates(template)
+            dependencies.add(
+                "implementation",
+                "$group:$artifactId:$templateVersion"
             )
         }
 

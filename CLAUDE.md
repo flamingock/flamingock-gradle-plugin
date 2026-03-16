@@ -7,7 +7,6 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 > Do NOT implement:
 > - Cloud edition
 > - Multiple drivers
-> - Template logic
 > - Advanced DSL
 > - Auto-detection
 > - Runtime features
@@ -17,6 +16,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 > - `mongock()`
 > - `springboot()`
 > - `graalvm()`
+> - `template(SQL, MONGODB)`
 > - Dependency wiring
 
 ## Project Overview
@@ -43,7 +43,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Auto-detect frameworks
 - Support Cloud edition (yet)
 - Configure database drivers
-- Handle templates
+- Handle templates at runtime
 
 ## User-Facing DSL
 
@@ -57,6 +57,7 @@ flamingock {
     mongock()     // Optional - Mongock migration support
     springboot()  // Optional - Spring Boot integration
     graalvm()     // Optional - GraalVM native image support
+    template(SQL, MONGODB) // Optional - Java templates
 }
 ```
 
@@ -71,6 +72,8 @@ flamingock {
 | `mongock()`           | `annotationProcessor` | `io.flamingock:mongock-support`                      |
 | `springboot()`        | `implementation`      | `io.flamingock:flamingock-springboot-integration`    |
 | `graalvm()`           | `implementation`      | `io.flamingock:flamingock-graalvm`                   |
+| `template(SQL)`       | `implementation`      | `io.flamingock:flamingock-java-template-sql`         |
+| `template(MONGODB)`   | `implementation`      | `io.flamingock:flamingock-java-template-mongodb`     |
 | (no springboot)       | `testImplementation`  | `io.flamingock:flamingock-test-support`              |
 | `springboot()`        | `testImplementation`  | `io.flamingock:flamingock-springboot-test-support`   |
 
@@ -84,6 +87,7 @@ flamingock-gradle-plugin/
 ├── src/main/kotlin/io/flamingock/gradle/
 │   ├── FlamingockPlugin.kt           # Main plugin class
 │   ├── FlamingockExtension.kt        # DSL extension
+│   ├── FlamingockTemplate.kt         # Template enum (SQL, MONGODB)
 │   └── internal/
 │       └── DependencyConfigurator.kt # Dependency wiring
 └── src/main/resources/META-INF/gradle-plugins/
