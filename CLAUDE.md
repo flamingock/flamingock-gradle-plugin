@@ -16,7 +16,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 > - `mongock()`
 > - `springboot()`
 > - `graalvm()`
-> - `template(SQL, MONGODB)`
+> - `templates(SQL, MONGODB)`
 > - Dependency wiring
 
 ## Project Overview
@@ -57,7 +57,7 @@ flamingock {
     mongock()     // Optional - Mongock migration support
     springboot()  // Optional - Spring Boot integration
     graalvm()     // Optional - GraalVM native image support
-    template(SQL, MONGODB) // Optional - Java templates
+    templates(SQL, MONGODB) // Optional - Java templates
 }
 ```
 
@@ -72,8 +72,8 @@ flamingock {
 | `mongock()`           | `annotationProcessor` | `io.flamingock:mongock-support`                      |
 | `springboot()`        | `implementation`      | `io.flamingock:flamingock-springboot-integration`    |
 | `graalvm()`           | `implementation`      | `io.flamingock:flamingock-graalvm`                   |
-| `template(SQL)`       | `implementation`      | `io.flamingock:flamingock-java-template-sql`         |
-| `template(MONGODB)`   | `implementation`      | `io.flamingock:flamingock-java-template-mongodb`     |
+| `templates(SQL)`      | `implementation`      | `io.flamingock:flamingock-java-template-sql`         |
+| `templates(MONGODB)`  | `implementation`      | `io.flamingock:flamingock-java-template-mongodb`     |
 | (no springboot)       | `testImplementation`  | `io.flamingock:flamingock-test-support`              |
 | `springboot()`        | `testImplementation`  | `io.flamingock:flamingock-springboot-test-support`   |
 

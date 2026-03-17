@@ -25,7 +25,7 @@ package io.flamingock.gradle
  *     mongockSupport()
  *     springboot()
  *     graalvm()
- *     template(SQL, MONGODB)
+ *     templates(SQL, MONGODB)
  * }
  * ```
  */
@@ -99,7 +99,7 @@ open class FlamingockExtension {
      * Adds for each template:
      * - `implementation("io.flamingock:<template-artifact>:<template-version>")`
      */
-    fun template(vararg templates: FlamingockTemplate) {
+    fun templates(vararg templates: FlamingockTemplate) {
         this.templates = this.templates + templates.toSet()
     }
 }
