@@ -23,6 +23,6 @@ internal object FlamingockConstants {
     const val EXTENSION_NAME = "flamingock"
     const val FLAMINGOCK_VERSION = "1.2.0-beta.1"
 
-    const val TEMPLATE_SQL_VERSION = "1.0.0-SNAPSHOT"
-    const val TEMPLATE_MONGODB_VERSION = "1.0.0-SNAPSHOT"
+    const val TEMPLATE_SQL_VERSION = "1.0.0-beta.1"
+    const val TEMPLATE_MONGODB_VERSION = "1.0.0-beta.10"
 }
