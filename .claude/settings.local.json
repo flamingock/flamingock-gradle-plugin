@@ -6,7 +6,8 @@
       "Bash(./gradlew clean publishToMavenLocal:*)",
       "Bash(./gradlew publishToMavenLocal:*)",
       "Bash(./gradlew:*)",
-      "Bash(git:*)"
+      "Bash(git:*)",
+      "Bash(grep -E \"\\\\.\\(kt|java\\)$\")"
     ]
   }
 }

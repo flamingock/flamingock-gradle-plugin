@@ -24,9 +24,9 @@ import org.gradle.api.Project
  */
 internal object DependencyConfigurator {
 
-    private fun templateCoordinates(template: FlamingockTemplate): Pair<String, String> = when (template) {
-        FlamingockTemplate.SQL -> "flamingock-java-template-sql" to FlamingockConstants.TEMPLATE_SQL_VERSION
-        FlamingockTemplate.MONGODB -> "flamingock-java-template-mongodb" to FlamingockConstants.TEMPLATE_MONGODB_VERSION
+    private fun templateArtifactId(template: FlamingockTemplate): String = when (template) {
+        FlamingockTemplate.SQL -> "flamingock-java-template-sql"
+        FlamingockTemplate.MONGODB -> "flamingock-java-template-mongodb"
     }
 
     fun configure(project: Project, extension: FlamingockExtension, version: String) {
@@ -81,12 +81,11 @@ internal object DependencyConfigurator {
             )
         }
 
-        // Java templates
+        // Java templates (version managed by BOM)
         for (template in extension.templates) {
-            val (artifactId, templateVersion) = templateCoordinates(template)
             dependencies.add(
                 "implementation",
-                "$group:$artifactId:$templateVersion"
+                "$group:${templateArtifactId(template)}"
             )
         }
 
