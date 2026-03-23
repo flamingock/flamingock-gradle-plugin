@@ -16,18 +16,12 @@
 package io.flamingock.gradle.internal
 
 import io.flamingock.gradle.FlamingockExtension
-import io.flamingock.gradle.FlamingockTemplate
 import org.gradle.api.Project
 
 /**
  * Configures Flamingock dependencies based on the extension settings.
  */
 internal object DependencyConfigurator {
-
-    private fun templateArtifactId(template: FlamingockTemplate): String = when (template) {
-        FlamingockTemplate.SQL -> "flamingock-java-template-sql"
-        FlamingockTemplate.MONGODB -> "flamingock-java-template-mongodb"
-    }
 
     fun configure(project: Project, extension: FlamingockExtension, version: String) {
         val group = FlamingockConstants.GROUP
@@ -81,12 +75,34 @@ internal object DependencyConfigurator {
             )
         }
 
-        // Java templates (version managed by BOM)
-        for (template in extension.templates) {
+        // SQL support
+        if (extension.isSqlEnabled) {
             dependencies.add(
                 "implementation",
-                "$group:${templateArtifactId(template)}"
+                "$group:flamingock-sql-template"
             )
+            dependencies.add(
+                "implementation",
+                "$group:flamingock-sql-target-system"
+            )
+        }
+
+        // MongoDB support
+        if (extension.isMongodbEnabled) {
+            dependencies.add(
+                "implementation",
+                "$group:flamingock-mongodb-sync-template"
+            )
+            dependencies.add(
+                "implementation",
+                "$group:flamingock-mongodb-sync-target-system"
+            )
+            if (extension.isSpringbootEnabled) {
+                dependencies.add(
+                    "implementation",
+                    "$group:flamingock-mongodb-springdata-target-system"
+                )
+            }
         }
 
         // Test support - springboot variant includes basic test-support transitively

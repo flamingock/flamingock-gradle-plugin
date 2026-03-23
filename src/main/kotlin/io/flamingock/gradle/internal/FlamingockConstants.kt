@@ -21,5 +21,14 @@ package io.flamingock.gradle.internal
 internal object FlamingockConstants {
     const val GROUP = "io.flamingock"
     const val EXTENSION_NAME = "flamingock"
-    const val FLAMINGOCK_VERSION = "1.2.0-beta.4"
+
+    val FLAMINGOCK_VERSION: String by lazy {
+        FlamingockConstants::class.java.classLoader
+            .getResourceAsStream("flamingock-plugin.properties")
+            ?.bufferedReader()
+            ?.use { reader ->
+                java.util.Properties().apply { load(reader) }.getProperty("version")
+            }
+            ?: throw IllegalStateException("Could not read flamingock-plugin.properties from classpath")
+    }
 }

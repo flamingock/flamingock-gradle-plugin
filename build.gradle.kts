@@ -41,6 +41,12 @@ gradlePlugin {
     }
 }
 
+tasks.processResources {
+    filesMatching("flamingock-plugin.properties") {
+        expand("pluginVersion" to project.version)
+    }
+}
+
 java {
     toolchain {
         languageVersion.set(JavaLanguageVersion.of(8))
