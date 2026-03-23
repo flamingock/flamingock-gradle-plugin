@@ -16,18 +16,12 @@
 package io.flamingock.gradle.internal
 
 import io.flamingock.gradle.FlamingockExtension
-import io.flamingock.gradle.FlamingockTemplate
 import org.gradle.api.Project
 
 /**
  * Configures Flamingock dependencies based on the extension settings.
  */
 internal object DependencyConfigurator {
-
-    private fun templateCoordinates(template: FlamingockTemplate): Pair<String, String> = when (template) {
-        FlamingockTemplate.SQL -> "flamingock-java-template-sql" to FlamingockConstants.TEMPLATE_SQL_VERSION
-        FlamingockTemplate.MONGODB -> "flamingock-java-template-mongodb" to FlamingockConstants.TEMPLATE_MONGODB_VERSION
-    }
 
     fun configure(project: Project, extension: FlamingockExtension, version: String) {
         val group = FlamingockConstants.GROUP
@@ -81,13 +75,34 @@ internal object DependencyConfigurator {
             )
         }
 
-        // Java templates
-        for (template in extension.templates) {
-            val (artifactId, templateVersion) = templateCoordinates(template)
+        // SQL support
+        if (extension.isSqlEnabled) {
             dependencies.add(
                 "implementation",
-                "$group:$artifactId:$templateVersion"
+                "$group:flamingock-sql-template"
             )
+            dependencies.add(
+                "implementation",
+                "$group:flamingock-sql-target-system"
+            )
+        }
+
+        // MongoDB support
+        if (extension.isMongodbEnabled) {
+            dependencies.add(
+                "implementation",
+                "$group:flamingock-mongodb-sync-template"
+            )
+            dependencies.add(
+                "implementation",
+                "$group:flamingock-mongodb-sync-target-system"
+            )
+            if (extension.isSpringbootEnabled) {
+                dependencies.add(
+                    "implementation",
+                    "$group:flamingock-mongodb-springdata-target-system"
+                )
+            }
         }
 
         // Test support - springboot variant includes basic test-support transitively

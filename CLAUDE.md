@@ -16,7 +16,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 > - `mongock()`
 > - `springboot()`
 > - `graalvm()`
-> - `templates(SQL, MONGODB)`
+> - `sql()`
+> - `mongodb()`
 > - Dependency wiring
 
 ## Project Overview
@@ -54,10 +55,11 @@ plugins {
 
 flamingock {
     community()   // REQUIRED - adds BOM + core library
+    sql()         // Optional - SQL template + target system
+    mongodb()     // Optional - MongoDB template + target system
     mongock()     // Optional - Mongock migration support
     springboot()  // Optional - Spring Boot integration
     graalvm()     // Optional - GraalVM native image support
-    templates(SQL, MONGODB) // Optional - Java templates
 }
 ```
 
@@ -72,8 +74,11 @@ flamingock {
 | `mongock()`           | `annotationProcessor` | `io.flamingock:mongock-support`                      |
 | `springboot()`        | `implementation`      | `io.flamingock:flamingock-springboot-integration`    |
 | `graalvm()`           | `implementation`      | `io.flamingock:flamingock-graalvm`                   |
-| `templates(SQL)`      | `implementation`      | `io.flamingock:flamingock-java-template-sql`         |
-| `templates(MONGODB)`  | `implementation`      | `io.flamingock:flamingock-java-template-mongodb`     |
+| `sql()`               | `implementation`      | `io.flamingock:flamingock-sql-template`              |
+| `sql()`               | `implementation`      | `io.flamingock:flamingock-sql-target-system`         |
+| `mongodb()`           | `implementation`      | `io.flamingock:flamingock-mongodb-sync-template`     |
+| `mongodb()`           | `implementation`      | `io.flamingock:flamingock-mongodb-sync-target-system`|
+| `mongodb()` + `springboot()` | `implementation` | `io.flamingock:flamingock-mongodb-springdata-target-system` |
 | (no springboot)       | `testImplementation`  | `io.flamingock:flamingock-test-support`              |
 | `springboot()`        | `testImplementation`  | `io.flamingock:flamingock-springboot-test-support`   |
 
@@ -87,7 +92,6 @@ flamingock-gradle-plugin/
 ├── src/main/kotlin/io/flamingock/gradle/
 │   ├── FlamingockPlugin.kt           # Main plugin class
 │   ├── FlamingockExtension.kt        # DSL extension
-│   ├── FlamingockTemplate.kt         # Template enum (SQL, MONGODB)
 │   └── internal/
 │       └── DependencyConfigurator.kt # Dependency wiring
 └── src/main/resources/META-INF/gradle-plugins/

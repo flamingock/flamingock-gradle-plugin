@@ -22,10 +22,11 @@ package io.flamingock.gradle
  * ```
  * flamingock {
  *     community()
- *     mongockSupport()
+ *     sql()
+ *     mongodb()
+ *     mongock()
  *     springboot()
  *     graalvm()
- *     templates(SQL, MONGODB)
  * }
  * ```
  */
@@ -43,7 +44,10 @@ open class FlamingockExtension {
     internal var isGraalvmEnabled: Boolean = false
         private set
 
-    internal var templates: Set<FlamingockTemplate> = emptySet()
+    internal var isSqlEnabled: Boolean = false
+        private set
+
+    internal var isMongodbEnabled: Boolean = false
         private set
 
     /**
@@ -94,12 +98,27 @@ open class FlamingockExtension {
     }
 
     /**
-     * Adds Java template dependencies.
+     * Enables SQL support.
      *
-     * Adds for each template:
-     * - `implementation("io.flamingock:<template-artifact>:<template-version>")`
+     * Adds:
+     * - `implementation("io.flamingock:flamingock-sql-template")`
+     * - `implementation("io.flamingock:flamingock-sql-target-system")`
      */
-    fun templates(vararg templates: FlamingockTemplate) {
-        this.templates = this.templates + templates.toSet()
+    fun sql() {
+        isSqlEnabled = true
+    }
+
+    /**
+     * Enables MongoDB support.
+     *
+     * Adds:
+     * - `implementation("io.flamingock:flamingock-mongodb-sync-template")`
+     * - `implementation("io.flamingock:flamingock-mongodb-sync-target-system")`
+     *
+     * If [springboot] is also enabled, additionally adds:
+     * - `implementation("io.flamingock:flamingock-mongodb-springdata-target-system")`
+     */
+    fun mongodb() {
+        isMongodbEnabled = true
     }
 }
