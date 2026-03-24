@@ -125,7 +125,7 @@ dependencies {
     implementation("org.mongodb:mongodb-driver-sync:5.0.0")
 
     // Your Flamingock audit store (choose one)
-    implementation("io.flamingock:flamingock-auditstore-mongodb-sync")
+    implementation("io.flamingock:flamingock-mongodb-sync-auditstore")
 }
 ```
 

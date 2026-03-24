@@ -83,7 +83,7 @@ internal object DependencyConfigurator {
             )
             dependencies.add(
                 "implementation",
-                "$group:flamingock-sql-target-system"
+                "$group:flamingock-sql-targetsystem"
             )
         }
 
@@ -95,12 +95,12 @@ internal object DependencyConfigurator {
             )
             dependencies.add(
                 "implementation",
-                "$group:flamingock-mongodb-sync-target-system"
+                "$group:flamingock-mongodb-sync-targetsystem"
             )
             if (extension.isSpringbootEnabled) {
                 dependencies.add(
                     "implementation",
-                    "$group:flamingock-mongodb-springdata-target-system"
+                    "$group:flamingock-mongodb-springdata-targetsystem"
                 )
             }
         }
