@@ -18,6 +18,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 > - `graalvm()`
 > - `sql()`
 > - `mongodb()`
+> - `dynamodb()`
+> - `couchbase()`
 > - Dependency wiring
 
 ## Project Overview
@@ -57,6 +59,8 @@ flamingock {
     community()   // REQUIRED - adds BOM + core library
     sql()         // Optional - SQL template + target system
     mongodb()     // Optional - MongoDB template + target system
+    dynamodb()    // Optional - DynamoDB target system
+    couchbase()   // Optional - Couchbase target system
     mongock()     // Optional - Mongock migration support
     springboot()  // Optional - Spring Boot integration
     graalvm()     // Optional - GraalVM native image support
@@ -79,6 +83,8 @@ flamingock {
 | `mongodb()`           | `implementation`      | `io.flamingock:flamingock-mongodb-sync-template`     |
 | `mongodb()`           | `implementation`      | `io.flamingock:flamingock-mongodb-sync-targetsystem`|
 | `mongodb()` + `springboot()` | `implementation` | `io.flamingock:flamingock-mongodb-springdata-targetsystem` |
+| `dynamodb()`          | `implementation`      | `io.flamingock:flamingock-dynamodb-targetsystem`     |
+| `couchbase()`         | `implementation`      | `io.flamingock:flamingock-couchbase-targetsystem`    |
 | (no springboot)       | `testImplementation`  | `io.flamingock:flamingock-test-support`              |
 | `springboot()`        | `testImplementation`  | `io.flamingock:flamingock-springboot-test-support`   |
 
