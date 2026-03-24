@@ -24,6 +24,8 @@ package io.flamingock.gradle
  *     community()
  *     sql()
  *     mongodb()
+ *     dynamodb()
+ *     couchbase()
  *     mongock()
  *     springboot()
  *     graalvm()
@@ -48,6 +50,12 @@ open class FlamingockExtension {
         private set
 
     internal var isMongodbEnabled: Boolean = false
+        private set
+
+    internal var isDynamodbEnabled: Boolean = false
+        private set
+
+    internal var isCouchbaseEnabled: Boolean = false
         private set
 
     /**
@@ -120,5 +128,25 @@ open class FlamingockExtension {
      */
     fun mongodb() {
         isMongodbEnabled = true
+    }
+
+    /**
+     * Enables DynamoDB support.
+     *
+     * Adds:
+     * - `implementation("io.flamingock:flamingock-dynamodb-targetsystem")`
+     */
+    fun dynamodb() {
+        isDynamodbEnabled = true
+    }
+
+    /**
+     * Enables Couchbase support.
+     *
+     * Adds:
+     * - `implementation("io.flamingock:flamingock-couchbase-targetsystem")`
+     */
+    fun couchbase() {
+        isCouchbaseEnabled = true
     }
 }

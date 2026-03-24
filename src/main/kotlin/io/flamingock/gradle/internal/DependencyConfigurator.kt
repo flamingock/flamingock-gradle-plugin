@@ -105,6 +105,22 @@ internal object DependencyConfigurator {
             }
         }
 
+        // DynamoDB support
+        if (extension.isDynamodbEnabled) {
+            dependencies.add(
+                "implementation",
+                "$group:flamingock-dynamodb-targetsystem"
+            )
+        }
+
+        // Couchbase support
+        if (extension.isCouchbaseEnabled) {
+            dependencies.add(
+                "implementation",
+                "$group:flamingock-couchbase-targetsystem"
+            )
+        }
+
         // Test support - springboot variant includes basic test-support transitively
         if (extension.isSpringbootEnabled) {
             dependencies.add("testImplementation", "$group:flamingock-springboot-test-support")
