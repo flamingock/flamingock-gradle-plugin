@@ -75,10 +75,10 @@ flamingock {
 | `springboot()`        | `implementation`      | `io.flamingock:flamingock-springboot-integration`    |
 | `graalvm()`           | `implementation`      | `io.flamingock:flamingock-graalvm`                   |
 | `sql()`               | `implementation`      | `io.flamingock:flamingock-sql-template`              |
-| `sql()`               | `implementation`      | `io.flamingock:flamingock-sql-target-system`         |
+| `sql()`               | `implementation`      | `io.flamingock:flamingock-sql-targetsystem`         |
 | `mongodb()`           | `implementation`      | `io.flamingock:flamingock-mongodb-sync-template`     |
-| `mongodb()`           | `implementation`      | `io.flamingock:flamingock-mongodb-sync-target-system`|
-| `mongodb()` + `springboot()` | `implementation` | `io.flamingock:flamingock-mongodb-springdata-target-system` |
+| `mongodb()`           | `implementation`      | `io.flamingock:flamingock-mongodb-sync-targetsystem`|
+| `mongodb()` + `springboot()` | `implementation` | `io.flamingock:flamingock-mongodb-springdata-targetsystem` |
 | (no springboot)       | `testImplementation`  | `io.flamingock:flamingock-test-support`              |
 | `springboot()`        | `testImplementation`  | `io.flamingock:flamingock-springboot-test-support`   |
 

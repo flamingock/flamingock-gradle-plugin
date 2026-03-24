@@ -102,7 +102,7 @@ open class FlamingockExtension {
      *
      * Adds:
      * - `implementation("io.flamingock:flamingock-sql-template")`
-     * - `implementation("io.flamingock:flamingock-sql-target-system")`
+     * - `implementation("io.flamingock:flamingock-sql-targetsystem")`
      */
     fun sql() {
         isSqlEnabled = true
@@ -113,10 +113,10 @@ open class FlamingockExtension {
      *
      * Adds:
      * - `implementation("io.flamingock:flamingock-mongodb-sync-template")`
-     * - `implementation("io.flamingock:flamingock-mongodb-sync-target-system")`
+     * - `implementation("io.flamingock:flamingock-mongodb-sync-targetsystem")`
      *
      * If [springboot] is also enabled, additionally adds:
-     * - `implementation("io.flamingock:flamingock-mongodb-springdata-target-system")`
+     * - `implementation("io.flamingock:flamingock-mongodb-springdata-targetsystem")`
      */
     fun mongodb() {
         isMongodbEnabled = true
