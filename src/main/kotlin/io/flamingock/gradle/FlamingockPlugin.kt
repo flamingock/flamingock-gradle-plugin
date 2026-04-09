@@ -63,23 +63,19 @@ class FlamingockPlugin : Plugin<Project> {
     }
 
     private fun validateConfiguration(extension: FlamingockExtension) {
-        if (!extension.isCommunityEnabled) {
+        if (extension.isCommunityEnabled && extension.isCloudEnabled) {
             throw GradleException(
                 """
                 |
                 |FLAMINGOCK CONFIGURATION ERROR
                 |
-                |No Flamingock edition selected.
+                |Both community() and cloud() editions are selected.
                 |
-                |Currently only the Community edition is available.
-                |
-                |Please configure:
+                |Please choose only one:
                 |
                 |flamingock {
-                |    community()
+                |    community()  // OR cloud() (default)
                 |}
-                |
-                |Cloud edition support will be available in a future release.
                 |
                 """.trimMargin()
             )

@@ -5,13 +5,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 > **IMPORTANT: This plugin is intentionally minimal for v1.0**
 >
 > Do NOT implement:
-> - Cloud edition
 > - Multiple drivers
 > - Advanced DSL
 > - Auto-detection
 > - Runtime features
 >
 > Focus only on:
+> - `cloud()` (default)
 > - `community()`
 > - `mongock()`
 > - `springboot()`
@@ -56,7 +56,8 @@ plugins {
 }
 
 flamingock {
-    community()   // REQUIRED - adds BOM + core library
+    cloud()       // Default - Cloud edition (used if neither cloud() nor community() is called)
+    community()   // Alternative - Community edition
     sql()         // Optional - SQL template + target system
     mongodb()     // Optional - MongoDB template + target system
     dynamodb()    // Optional - DynamoDB target system
@@ -73,6 +74,7 @@ flamingock {
 |-----------------------|-----------------------|------------------------------------------------------|
 | Always                | `annotationProcessor` | `io.flamingock:flamingock-processor`                 |
 | Always                | `implementation`      | `platform("io.flamingock:flamingock-bom")`           |
+| `cloud()` (default)   | `implementation`      | `io.flamingock:flamingock-cloud`                     |
 | `community()`         | `implementation`      | `io.flamingock:flamingock-community`                 |
 | `mongock()`           | `implementation`      | `io.flamingock:mongock-support`                      |
 | `mongock()`           | `annotationProcessor` | `io.flamingock:mongock-support`                      |
@@ -122,23 +124,21 @@ flamingock-gradle-plugin/
 
 ## Validation
 
-If `community()` is NOT called, the plugin fails with:
+If both `community()` and `cloud()` are called, the plugin fails with:
 
 ```
 FLAMINGOCK CONFIGURATION ERROR
 
-No Flamingock edition selected.
+Both community() and cloud() editions are selected.
 
-Currently only the Community edition is available.
-
-Please configure:
+Please choose only one:
 
 flamingock {
-    community()
+    community()  // OR cloud() (default)
 }
-
-Cloud edition support will be available in a future release.
 ```
+
+If neither is called, `cloud()` is used as the default.
 
 ## Design Rules
 
