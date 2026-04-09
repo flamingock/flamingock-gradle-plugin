@@ -34,6 +34,9 @@ package io.flamingock.gradle
  */
 open class FlamingockExtension {
 
+    internal var isCloudEnabled: Boolean = false
+        private set
+
     internal var isCommunityEnabled: Boolean = false
         private set
 
@@ -59,9 +62,20 @@ open class FlamingockExtension {
         private set
 
     /**
-     * Enables the Community edition of Flamingock.
+     * Enables the Cloud edition of Flamingock.
      *
-     * This is REQUIRED. The plugin will fail if this method is not called.
+     * This is the default edition. If neither [cloud] nor [community] is called,
+     * cloud is activated automatically.
+     *
+     * Adds:
+     * - `implementation("io.flamingock:flamingock-cloud")`
+     */
+    fun cloud() {
+        isCloudEnabled = true
+    }
+
+    /**
+     * Enables the Community edition of Flamingock.
      *
      * Adds:
      * - `implementation("io.flamingock:flamingock-community")`

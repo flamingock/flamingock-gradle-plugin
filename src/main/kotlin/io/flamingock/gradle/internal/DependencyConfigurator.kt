@@ -39,11 +39,16 @@ internal object DependencyConfigurator {
             dependencies.platform("$group:flamingock-bom:$version")
         )
 
-        // Community edition dependencies
+        // Edition dependencies (cloud is the default)
         if (extension.isCommunityEnabled) {
             dependencies.add(
                 "implementation",
                 "$group:flamingock-community"
+            )
+        } else {
+            dependencies.add(
+                "implementation",
+                "$group:flamingock-cloud"
             )
         }
 
