@@ -33,14 +33,14 @@ internal object DependencyConfigurator {
             "$group:flamingock-processor:$version"
         )
 
+        // Always add BOM for version management
+        dependencies.add(
+            "implementation",
+            dependencies.platform("$group:flamingock-bom:$version")
+        )
+
         // Community edition dependencies
         if (extension.isCommunityEnabled) {
-            // Add BOM for version management
-            dependencies.add(
-                "implementation",
-                dependencies.platform("$group:flamingock-community-bom:$version")
-            )
-            // Add core community library (version managed by BOM)
             dependencies.add(
                 "implementation",
                 "$group:flamingock-community"
