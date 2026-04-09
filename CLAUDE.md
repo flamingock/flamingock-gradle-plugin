@@ -72,7 +72,7 @@ flamingock {
 | Method                | Configuration         | Artifact                                             |
 |-----------------------|-----------------------|------------------------------------------------------|
 | Always                | `annotationProcessor` | `io.flamingock:flamingock-processor`                 |
-| `community()`         | `implementation`      | `platform("io.flamingock:flamingock-community-bom")` |
+| Always                | `implementation`      | `platform("io.flamingock:flamingock-bom")`           |
 | `community()`         | `implementation`      | `io.flamingock:flamingock-community`                 |
 | `mongock()`           | `implementation`      | `io.flamingock:mongock-support`                      |
 | `mongock()`           | `annotationProcessor` | `io.flamingock:mongock-support`                      |

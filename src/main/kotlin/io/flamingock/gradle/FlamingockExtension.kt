@@ -64,7 +64,6 @@ open class FlamingockExtension {
      * This is REQUIRED. The plugin will fail if this method is not called.
      *
      * Adds:
-     * - `implementation(platform("io.flamingock:flamingock-community-bom"))`
      * - `implementation("io.flamingock:flamingock-community")`
      */
     fun community() {
