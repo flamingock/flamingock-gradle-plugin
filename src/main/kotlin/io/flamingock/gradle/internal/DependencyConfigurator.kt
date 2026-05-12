@@ -126,6 +126,14 @@ internal object DependencyConfigurator {
             )
         }
 
+        // Schema Registry support
+        if (extension.isSchemaregistryEnabled) {
+            dependencies.add(
+                "implementation",
+                "$group:flamingock-java-template-schema-registry"
+            )
+        }
+
         // Test support - springboot variant includes basic test-support transitively
         if (extension.isSpringbootEnabled) {
             dependencies.add("testImplementation", "$group:flamingock-springboot-test-support")

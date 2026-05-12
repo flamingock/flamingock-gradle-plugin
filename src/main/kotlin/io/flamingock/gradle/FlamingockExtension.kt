@@ -26,6 +26,7 @@ package io.flamingock.gradle
  *     mongodb()
  *     dynamodb()
  *     couchbase()
+ *     schemaregistry()
  *     mongock()
  *     springboot()
  *     graalvm()
@@ -59,6 +60,9 @@ open class FlamingockExtension {
         private set
 
     internal var isCouchbaseEnabled: Boolean = false
+        private set
+
+    internal var isSchemaregistryEnabled: Boolean = false
         private set
 
     /**
@@ -161,5 +165,15 @@ open class FlamingockExtension {
      */
     fun couchbase() {
         isCouchbaseEnabled = true
+    }
+
+    /**
+     * Enables Schema Registry support.
+     *
+     * Adds:
+     * - `implementation("io.flamingock:flamingock-java-template-schema-registry")`
+     */
+    fun schemaregistry() {
+        isSchemaregistryEnabled = true
     }
 }
